@@ -1,0 +1,50 @@
+---
+- name: Update HandleLidSwitch config
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    line: HandleLidSwitch=ignore 
+    state: present
+  notify: restart systemd-logind
+
+- name: Update HandleLidSwitchDocked config
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    line: HandleLidSwitchDocked=ignore 
+    state: present
+  notify: restart systemd-logind
+
+- name: Create acpi events directory if it does not exist
+  file:
+    path: "/etc/acpi/events/"
+    state: directory
+
+- name: Add lid action script 
+  ansible.builtin.template:
+    src: templates/on_change_lid_event.sh.j2
+    dest: "/etc/acpi/on_change_lid_event.sh"
+    force: yes
+    owner: root
+    group: root
+  notify: restart acpid      
+
+- name: Update Acpi events event
+  ansible.builtin.lineinfile:
+    path: /etc/acpi/events/lm_lid
+    line: event=button/lid.*
+    state: present  
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart acpid 
+
+- name: Update Acpi events action
+  ansible.builtin.lineinfile:
+    path: /etc/acpi/events/lm_lid
+    line: action=/etc/acpi/on_change_lid_event.sh
+    state: present  
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart acpid
+
+

@@ -1,0 +1,7 @@
+---
+- name: restart systemd-logind
+  service: name=systemd-logind state=restarted
+
+- name: restart acpid 
+  service: name=acpid state=restarted
+
