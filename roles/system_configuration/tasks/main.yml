@@ -55,7 +55,7 @@
 - name: Update Acpi events action
   ansible.builtin.lineinfile:
     path: /etc/acpi/events/lm_lid
-    line: action=/etc/acpi/on_change_lid_event.sh
+    line: action=/usr/local/bin/manage.py
     state: present  
     owner: root
     group: root
