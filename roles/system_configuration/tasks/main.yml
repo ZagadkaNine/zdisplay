@@ -1,4 +1,15 @@
 ---
+- name: Install Acpi service
+  ansible.builtin.apt:
+    name: acpid
+    state: present
+  notify: restart acpid 
+
+- name: Install Acpi
+  ansible.builtin.apt:
+    name: acpi
+    state: present
+
 - name: Update HandleLidSwitch config
   ansible.builtin.lineinfile:
     path: /etc/systemd/logind.conf
