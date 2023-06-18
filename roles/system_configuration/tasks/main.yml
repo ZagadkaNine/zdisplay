@@ -26,7 +26,7 @@
     group: root
   notify: restart acpid      
 
-- name: Creating an empty file
+- name: Creating empty ln_lid file 
     file:
       path: "/etc/acpi/events/lm_lid"
       state: touch
