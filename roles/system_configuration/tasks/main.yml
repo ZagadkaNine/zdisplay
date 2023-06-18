@@ -19,14 +19,18 @@
     state: directory
 
 - name: Add lid action script 
-  ansible.builtin.template:
-    src: templates/on_change_lid_event.sh.j2
-    dest: "/etc/acpi/on_change_lid_event.sh"
-    force: yes
+  ansible.builtin.copy:
+    src: scripts/manage.sh
+    dest: "/usr/local/bin/"
     owner: root
     group: root
   notify: restart acpid      
 
+- name: Creating an empty file
+    file:
+      path: "/etc/acpi/events/lm_lid"
+      state: touch
+        
 - name: Update Acpi events event
   ansible.builtin.lineinfile:
     path: /etc/acpi/events/lm_lid
