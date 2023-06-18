@@ -27,7 +27,7 @@
   notify: restart acpid      
 
 - name: Creating empty ln_lid file 
-    file:
+  ansible.builtin.file:
       path: "/etc/acpi/events/lm_lid"
       state: touch
         
